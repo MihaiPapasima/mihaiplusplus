@@ -11,6 +11,17 @@ pipeline {
     }
 
     stages {
+        stage('Environment Info') {
+            steps {
+                sh 'echo "=== Docker ===" && docker --version || echo "docker NOT found"'
+                sh 'echo "=== Docker Socket ===" && ls -la /var/run/docker.sock || echo "docker socket NOT mounted"'
+                sh 'echo "=== Docker Daemon ===" && docker ps > /dev/null && echo "docker daemon accessible" || echo "docker daemon NOT accessible"'
+                sh 'echo "=== Node ===" && node --version || echo "node NOT found"'
+                sh 'echo "=== pnpm ===" && pnpm --version || echo "pnpm NOT found"'
+                sh 'echo "=== Port 3000 ===" && ss -tlnp | grep :3000 || echo "port 3000 is free"'
+            }
+        }
+
         stage('Checkout') {
             steps {
                 checkout scm
