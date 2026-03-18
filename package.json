@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "playwright test",
+    "test:debug": "playwright test --ui",
+    "docker:build": "docker build -t mihaiplusplus .",
+    "docker:run": "docker run -p 3000:3000 mihaiplusplus"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

@@ -15,7 +15,7 @@ const textStyle = {
 
 export default function MyLogo() {
   return (
-    <Link href="/" style={{ textDecoration: "none" }}>
+    <Link href="/" style={{ textDecoration: "none" }} test-name="logo">
       <Box
         component="span"
         sx={{ ...textStyle, display: { xs: "none", sm: "inline" } }}

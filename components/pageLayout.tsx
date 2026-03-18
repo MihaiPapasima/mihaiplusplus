@@ -10,6 +10,7 @@ export default function PageLayout({
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <AppHeader />
       <Box
+        test-name="content"
         sx={{
           flex: 1,
           display: "flex",
@@ -18,7 +19,6 @@ export default function PageLayout({
           pt: { xs: 8, md: 5 },
           pb: { xs: 8, md: 4 },
         }}
-        test-name="content"
       >
         {children}
       </Box>

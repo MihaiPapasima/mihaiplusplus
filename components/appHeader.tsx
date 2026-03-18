@@ -26,10 +26,10 @@ const textStyle = {
 };
 
 const navLinks = [
-  { label: "Welcome", href: "/" },
-  { label: "Contact", href: "/contact" },
-  { label: "Apps", href: "/apps" },
-  { label: "Games", href: "/games" },
+  { label: "Welcome", href: "/", testName: "nav-welcome" },
+  { label: "Contact", href: "/contact", testName: "nav-contact" },
+  { label: "Apps", href: "/apps", testName: "nav-apps" },
+  { label: "Games", href: "/games", testName: "nav-games" },
 ];
 
 export default function AppHeader() {
@@ -56,6 +56,7 @@ export default function AppHeader() {
                 component={Link}
                 href={link.href}
                 sx={{ ...textStyle }}
+                test-name={link.testName}
               >
                 {link.label}
               </Button>
