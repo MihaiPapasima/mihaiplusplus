@@ -34,6 +34,36 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                sh "docker network create ${IMAGE_NAME}-test-net-${BUILD_NUMBER}"
+                sh """
+                    docker run -d \
+                        --name mihaiplusplus-test-${BUILD_NUMBER} \
+                        --network ${IMAGE_NAME}-test-net-${BUILD_NUMBER} \
+                        ${IMAGE_NAME}:${BUILD_NUMBER}
+                """
+                sh """
+                    docker run --rm \
+                        --network ${IMAGE_NAME}-test-net-${BUILD_NUMBER} \
+                        -v \${WORKSPACE}:/work \
+                        -w /work \
+                        -e CI=true \
+                        -e BASE_URL=http://mihaiplusplus-test-${BUILD_NUMBER}:3000 \
+                        mcr.microsoft.com/playwright:v1.58.2-noble \
+                        sh -c "npm install -g pnpm && pnpm install --frozen-lockfile && pnpm test"
+                """
+            }
+            post {
+                always {
+                    sh "docker stop mihaiplusplus-test-${BUILD_NUMBER} || true"
+                    sh "docker rm mihaiplusplus-test-${BUILD_NUMBER} || true"
+                    sh "docker network rm ${IMAGE_NAME}-test-net-${BUILD_NUMBER} || true"
+                    junit testResults: 'test-results/junit.xml', allowEmptyResults: true
+                }
+            }
+        }
+
         stage('Tag Latest') {
             steps {
                 sh "docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${IMAGE_NAME}:latest"
