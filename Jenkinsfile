@@ -46,8 +46,8 @@ pipeline {
                 sh """
                     docker run --rm \
                         --network ${IMAGE_NAME}-test-net-${BUILD_NUMBER} \
-                        -v \${WORKSPACE}:/work \
-                        -w /work \
+                        --volumes-from \$(hostname) \
+                        -w \${WORKSPACE} \
                         -e CI=true \
                         -e BASE_URL=http://mihaiplusplus-test-${BUILD_NUMBER}:3000 \
                         mcr.microsoft.com/playwright:v1.58.2-noble \
