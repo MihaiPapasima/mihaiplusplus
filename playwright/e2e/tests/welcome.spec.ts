@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { WelcomePage } from '../pom/WelcomePage';
+import { test, expect } from "@playwright/test";
+import { WelcomePage } from "../pageObjects/pages/WelcomePage";
 
-test.describe('Welcome page', () => {
+test.describe("Welcome page", () => {
   let welcomePage: WelcomePage;
 
   test.beforeEach(async ({ page }) => {
@@ -9,16 +9,18 @@ test.describe('Welcome page', () => {
     await welcomePage.goto();
   });
 
-  test('displays the main heading', async () => {
-    await expect(welcomePage.heading).toBeVisible();
+  test("displays the main heading", async () => {
+    await expect(welcomePage.content).toBeVisible();
   });
 
-  test('displays the eyebrow label', async ({ page }) => {
-    await expect(page.getByText('QA Engineer · Tech Generalist · Netherlands')).toBeVisible();
+  test("displays the eyebrow label", async ({ page }) => {
+    await expect(
+      page.getByText("QA Engineer · Tech Generalist · Netherlands"),
+    ).toBeVisible();
   });
 
-  test('displays the header with logo and nav links', async () => {
-    await expect(welcomePage.header.root).toBeVisible();
+  test("displays the header with logo and nav links", async () => {
+    await expect(welcomePage.header.locator).toBeVisible();
     await expect(welcomePage.header.logoLink).toBeVisible();
     await expect(welcomePage.header.welcomeNavLink).toBeVisible();
     await expect(welcomePage.header.appsNavLink).toBeVisible();
